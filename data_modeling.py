@@ -1,6 +1,7 @@
 import os
 from PIL import Image
-
+import numpy as np
+import pandas as pd
 # create function to get images path from dataset
 def img_path():
 
@@ -21,6 +22,35 @@ def img_path():
 
 pos_paths, neg_paths = img_path()
  
-demo = pos_paths[0]
-img = Image.open(demo)
-img.show()
+data = []
+labels = []
+
+for paths in pos_paths:
+    img = Image.open(paths)
+
+    # convert images to numpy array
+
+    img_array = np.asarray(img)
+
+    # Reshape the array
+
+    img_array = img_array.reshape((1,-1))
+    data.append(img_array)
+    labels.append(1)
+
+for paths in neg_paths:
+    img = Image.open(paths)
+
+    # convert images to numpy array
+
+    img_array = np.asarray(img)
+
+    # Reshape the array
+
+    img_array = img_array.reshape((1,-1))
+    data.append(img_array)
+    labels.append(0)
+
+data = np.vstack(data)
+print(data.shape)
+
